@@ -50,11 +50,15 @@
      <Compile Include="Assets\Scripts\EffectScore.cs" />
      <Compile Include="Assets\Scripts\HealthSystem.cs" />
      <Compile Include="Assets\Scripts\LevelLoader.cs" />
+     <Compile Include="Assets\Scripts\MainMenuButtons.cs" />
      <Compile Include="Assets\Scripts\ObjectSpawner.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\QuitToMenu.cs" />
      <Compile Include="Assets\Scripts\ScoreSystem.cs" />
      <Compile Include="Assets\Scripts\ScrollingObject.cs" />
+     <Compile Include="Assets\Scripts\ScrollingTile.cs" />
      <Compile Include="Assets\Scripts\SpawnedObject.cs" />
+     <Compile Include="Assets\Scripts\TileSpawner.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>X:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

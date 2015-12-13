@@ -58,7 +58,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private void SpawnObject(GameObject obj)
     {
-        Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
+        Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;        
 
         GameObject.Instantiate(obj, transform.position + new Vector3(randomPoint.x, randomPoint.y, 0), Quaternion.identity);
     }
