@@ -45,7 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Effect.cs" />
+     <Compile Include="Assets\Scripts\EffectDamage.cs" />
+     <Compile Include="Assets\Scripts\EffectScore.cs" />
+     <Compile Include="Assets\Scripts\HealthSystem.cs" />
+     <Compile Include="Assets\Scripts\LevelLoader.cs" />
+     <Compile Include="Assets\Scripts\ObjectSpawner.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\ScoreSystem.cs" />
+     <Compile Include="Assets\Scripts\ScrollingObject.cs" />
+     <Compile Include="Assets\Scripts\SpawnedObject.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>X:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

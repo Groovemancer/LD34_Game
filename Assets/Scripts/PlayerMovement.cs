@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float distance = 1f;
+    public float speed = 2f;
 
     private Rigidbody2D rigidBody;
 
@@ -20,7 +20,14 @@ public class PlayerMovement : MonoBehaviour
     private float jumpStartTime;
     public float jumpDuration = 0.5f;
     public float jumpDelay = 0.1f;
+    private float jumpDelayTimer = 0f;
     private float jumpTimer = 0f;
+    private float jumpDir = 0f;
+
+    private Vector2 directionalVector;
+    private Vector2 desiredVelocity;
+    private float lastSqrMag;
+    private Animator anim;
 
 	// Use this for initialization
 	void Start()
@@ -28,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         circCollider = GetComponent<CircleCollider2D>();
+        anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -35,28 +43,47 @@ public class PlayerMovement : MonoBehaviour
     { 
 
         if (jumpTimer > 0)
+        {            
+            jumpTimer -= Time.deltaTime;            
+        }
+        if (jumpDelayTimer > 0)
         {
-            rigidBody.position = Vector2.Lerp(jumpStart, jumpEnd, (Time.time - jumpStartTime) / jumpDuration);
-            jumpTimer -= Time.deltaTime;
+            jumpDelayTimer -= Time.deltaTime;
+            
+        }
+        if (jumpDelayTimer <= 0f)
+        {
+            jumpDir = 0;
+            rigidBody.velocity = new Vector2();            
         }
         if (jumpTimer <= 0f)
         {
-            if (Input.GetButton("Right"))
+            if (Input.GetAxis("Horizontal") != 0)
             {
                 jumpTimer = jumpDuration + jumpDelay;
-                jumpStart = rigidBody.position;
-                jumpEnd = jumpStart + new Vector2(1, 0);
-                jumpStartTime = Time.time;
-            }
-            else if (Input.GetButton("Left"))
-            {
-                jumpTimer = jumpDuration + jumpDelay;
-                jumpStart = rigidBody.position;
-                jumpEnd = jumpStart + new Vector2(-1, 0);
-                jumpStartTime = Time.time;
+                jumpDelayTimer = jumpDelay;
+                jumpStart = new Vector2(transform.position.x, transform.position.y);
+                if (Input.GetAxis("Horizontal") < 0)
+                    jumpDir = -1;
+                else if (Input.GetAxis("Horizontal") > 0)
+                    jumpDir = 1;
+
+                jumpEnd = jumpStart + new Vector2(jumpDir, 0);
+                directionalVector = (jumpEnd - jumpStart).normalized * speed;
+                lastSqrMag = Mathf.Infinity;
+                desiredVelocity = directionalVector;
+                anim.SetTrigger("Jump");
             }
         }
-        //rigidBody.velocity = new Vector2(dir * speed, 0);
+
+        Vector2 currentPos = new Vector2(transform.position.x, transform.position.y);
+        float sqrMag = (jumpEnd - currentPos).sqrMagnitude;
+
+        if (sqrMag > lastSqrMag)
+        {
+            desiredVelocity = Vector2.zero;
+        }
+        lastSqrMag = sqrMag;
         
         if (Input.GetKeyDown(KeyCode.Space))
         {            
@@ -74,4 +101,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 	}
+
+    void FixedUpdate()
+    {
+        rigidBody.velocity = desiredVelocity;
+    }
 }
